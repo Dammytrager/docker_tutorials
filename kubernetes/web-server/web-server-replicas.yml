@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-server-replicas
+  labels:
+    type: web
+    app: web
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      name: web-server
+      labels:
+        app: web-server
+        type: frontend
+    spec:
+      containers:
+        - name: web-server
+          image: dammytrager/web_app

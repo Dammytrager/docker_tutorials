@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: db
+      app: todo-app-db
+  template:
+    metadata:
+      name: todo-app-db
+      labels:
+        service: db
+        app: todo-app-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14-alpine
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: todo-volume
+          envFrom:
+            - configMapRef:
+                name: general-config-map
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: todo-volume
+          hostPath:
+            path: /Users/damilare/Documents/docker_tutorials/images/todo-app-db/volume
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: backend
+      app: todo-app-backend
+  template:
+    metadata:
+      name: todo-app-backend
+      labels:
+        service: backend
+        app: todo-app-backend
+    spec:
+      containers:
+        - name: todo-app-backend
+          image: dammytrager/todo-backend@sha256:27d7fe0a9c88f7ccec5014380de55763b0edbd1eb8dc8c933e91ab16ba2a1bf3
+          envFrom:
+            - configMapRef:
+                name: general-config-map
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: frontend
+      app: todo-app-frontend
+  template:
+    metadata:
+      name: todo-app-frontend
+      labels:
+        service: frontend
+        app: todo-app-frontend
+    spec:
+      containers:
+        - name: todo-app-backend
+          image: dammytrager/todo-frontend@sha256:4f877c00b290d4fca2b9ab371df77a79eef69f2cf91bb312242ea89dad34045b

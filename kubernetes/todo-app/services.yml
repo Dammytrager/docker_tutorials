@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-db-service
+spec:
+  type: ClusterIP
+  selector:
+    service: db
+    app: todo-app-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-backend-service
+spec:
+  type: NodePort
+  selector:
+    service: backend
+    app: todo-app-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-frontend-service
+spec:
+  type: NodePort
+  selector:
+    service: frontend
+    app: todo-app-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30002

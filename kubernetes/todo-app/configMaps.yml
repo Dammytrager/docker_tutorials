@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: general-config-map
+data:
+  REACT_APP_API_BASE_URL: http://localhost:4400/api
+  DB_PASSWORD: "12345"
+  DB_USER: damilare
+  DB_NAME: todo-app
+  DB_HOST: todo-app-db-service
+  RAILS_ENV: development
+  POSTGRES_PASSWORD: "12345"
+  POSTGRES_USER: damilare
+  POSTGRES_DB: todo-app
+  PGDATA: /var/lib/postgresql/data

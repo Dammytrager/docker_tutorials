@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: computer
+  labels:
+    app: computer
+spec:
+  containers:
+    - name: computer
+      image: dammytrager/computer

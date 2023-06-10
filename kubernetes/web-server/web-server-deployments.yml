@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server-deployment
+spec:
+  selector:
+    matchLabels:
+      app: web-server
+  replicas: 10
+  template:
+    metadata:
+      name: web-server
+      labels:
+        app: web-server
+    spec:
+      containers:
+        - name: web-server
+          image: dammytrager/web_app@sha256:9fd6ff592e5d33a8a35b415cb7aad4eed42bf9a039091017dd09f572e0f3e917
+          ports:
+            - containerPort: 80
